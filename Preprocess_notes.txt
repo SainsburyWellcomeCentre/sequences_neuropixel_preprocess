@@ -1,0 +1,20 @@
+1.SPIKESORTING
+- enter the spike interface env: 
+conda activate si_env
+- run notebook
+jupyter notebook
+- run initial_preprocess_raw.ipynb 
+- this will create organised file directories and run kilosort for each probe, and for each recording
+
+2. VIDEOS
+- run split video files (this can be done on the cluster using the .py file) 
+- make sure to use moviepy version 1.0.3. the newer one is broken 
+- once vidoes are split and saved out into the organised folders run DLC
+
+3. DLC
+
+4. BPOD processing 
+
+5. ALIGNMENT
+
+
