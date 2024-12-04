@@ -498,10 +498,10 @@ def align_opto_trials_to_dataframe(trial_id,executed_optotrials):
 
 def time_sort(All_PortIn_Times,All_PortOut_Times,All_Port_references):
     sort_index = [np.argsort(np.array(All_PortIn_Times))]
-    in_times_list = np.array(All_PortIn_Times, dtype=np.float)[sort_index]
-    out_times_list = np.array(All_PortOut_Times, dtype=np.float)[sort_index]
+    in_times_list = np.array(All_PortIn_Times, dtype=float)[sort_index]
+    out_times_list = np.array(All_PortOut_Times, dtype=float)[sort_index]
     reference_list = np.array(All_Port_references)[sort_index]
-    return in_times_list,out_times_list,reference_list
+    return in_times_list[0],out_times_list[0],reference_list[0]
 
 def extract_poke_times(Behav_data):
     

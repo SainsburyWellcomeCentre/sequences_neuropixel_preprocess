@@ -202,7 +202,7 @@ for mouse_file in os.listdir(base_path):
                 full_files_to_process += [full_file]
                 files_to_process+=[file]
                 
-                mouse_file = full_file.split('//')[-2]
+                mouse_file = full_file.split('/')[-2]
                 mouse_file = mouse_file.lower()
                 if 'ap5' in mouse_file:
                     mouse_file = mouse_file.split('_')[0] + mouse_file.split('_')[-1]
@@ -226,7 +226,11 @@ for mouse_file in os.listdir(base_path):
                         full_files_to_process.pop()
                         files_to_process.pop()
                         break
-                                        
+                    
+                    
+final_files_to_process = []
+final_full_files_to_process = []
+final_out_paths = []
 for i in range(len(files_to_process)):
     file = files_to_process[i]
     full_file = full_files_to_process[i]
@@ -236,29 +240,56 @@ for i in range(len(files_to_process)):
     current_amimal = full_file.split('/')[-1].split('__')[0]
     for f_path in os.listdir(save_path_base):
         if current_amimal in f_path:
-            print('found')
             full_cam_save_path = os.path.join(save_path_base, f_path)
         elif current_amimal.split('_')[0].lower() + current_amimal.split('_')[-1]+'_' in f_path:
             full_cam_save_path = os.path.join(save_path_base, f_path)
         elif current_amimal.split('_')[0].lower() + current_amimal.split('_')[-1].lower()+'_' in f_path:
             full_cam_save_path = os.path.join(save_path_base, f_path)
-    formatted_date = convert_date_format(full_file.split('/')[-1].split('__')[-1])
+    
+    date = full_file.split('/')[-1].split('__')[-1]
+    if '_' in date:
+        date = date.split('_')[0]
+    formatted_date = convert_date_format(date)
 
     full_cam_save_path_task = None
     full_cam_save_path_pre = None
     full_cam_save_path_post = None
+    process = False
     for fi_path in os.listdir(full_cam_save_path):
         if formatted_date in fi_path:
             full_cam_save_path_task = os.path.join(full_cam_save_path, fi_path,'video','videos','2_task')
             full_cam_save_path_pre = os.path.join(full_cam_save_path, fi_path,'video','videos','1_presleep')
             full_cam_save_path_post = os.path.join(full_cam_save_path, fi_path,'video','videos','3_postsleep')
+            process = True
+    if process == True:      
+        #if not existing already, make a new dir
+        for path in [full_cam_save_path_task, full_cam_save_path_pre, full_cam_save_path_post]:
+            if not os.path.isdir(path):
+                os.makedirs(path)
+                
+        print(os.path.join(full_file,file))
+        print(full_cam_save_path)
+        print('----------------')
+        
+        already_exists = False
+        for file in os.listdir(full_cam_save_path_task):
+            if '.avi' in file:
+                print('exits')
+                already_exists = True
+        if already_exists == False:
+            final_files_to_process += [file]
+            final_full_files_to_process += [full_file]
+            final_out_paths += [[full_cam_save_path_task,full_cam_save_path_pre,full_cam_save_path_post]]
             
-    #if not existing already, make a new dir
-    for path in [full_cam_save_path_task, full_cam_save_path_pre, full_cam_save_path_post]:
-        if not os.path.isdir(path):
-            os.makedirs(path)
+                                        
+for i in range(len(final_files_to_process)):
+    file = final_files_to_process[i]
+    full_file = final_full_files_to_process[i]
     
-    
+    full_cam_save_path_task = final_out_paths[i][0]
+    full_cam_save_path_pre = final_out_paths[i][1]
+    full_cam_save_path_post = final_out_paths[i][2]
+
     ### PROCESS 
     print("*********** PROCESSING *************")
     print(os.path.join(full_file, file))
