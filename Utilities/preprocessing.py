@@ -600,3 +600,45 @@ def Determine_Transition_Times_and_Types(All_PortIn_Times_sorted ,All_PortOut_Ti
             transition_type = transition_type + [int(str(All_Port_references_sorted[index-1]) + str(port))]
 
     return (np.array(out_in),np.array(in_in) ,np.array(transition_type),out_in_transition_reference,in_in_transition_reference)
+
+
+def Import_EPHYS_Bpod_DataFiles(InputPath,ephys_dates):
+    '''
+    Load in all '.mat' files for a given folder if they are ephys sessions and convert them to python format:
+    '''
+    Behav_Path = sorted(os.listdir(InputPath))
+    Behav_Data = {} #set up file dict
+    File_dates = []
+    Sessions = 0 # for naming each data set within the main dict
+
+    for file in Behav_Path:
+        if file[-2] == 'a': #if its a .mat and not a fig
+            if os.stat(InputPath+ file).st_size > 200000: #more thann 200kb 
+                if file != '.DS_Store': #if file is not the weird hidden file 
+                    
+                    date = file.split('_')[-2][6:] + '-' + file.split('_')[-2][4:6] + '-' + file.split('_')[-2][:4]
+                    
+                    if date in ephys_dates:
+                        print(file)
+                        Current_file = loadmat(InputPath + file)
+                        Behav_Data[Sessions] = Current_file
+                        Sessions = Sessions + 1
+                        File_dates = File_dates + [file[-19:-4]]
+    return Behav_Data, Sessions, Behav_Path,File_dates
+
+def check_and_create_directory(Save_path, Replace):
+    """
+    Check if the directory exists and determine if it needs to be processed or not.
+    
+    Parameters:
+    Save_path (str): The path to the directory to check.
+    Replace (bool): Flag indicating whether to replace existing data.
+    
+    Returns:
+    bool: True if the directory needs to be processed, False otherwise.
+    """
+    if not os.path.isdir(Save_path):
+        os.makedirs(Save_path)
+        return True
+    else:
+        return Replace

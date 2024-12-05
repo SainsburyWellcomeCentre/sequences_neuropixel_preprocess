@@ -423,7 +423,12 @@ for i in range(len(final_files_to_process)):
     if not os.path.exists(DLC_dump_path_back):
         os.makedirs(DLC_dump_path_back)
         
-        
+    # temporary fix because for one animal the above auto thing doesnt work  
+    if 'camera2' in final_files_to_process[0]:
+        BACK_CAM == True
+    if 'timestamp_2' in final_files_to_process[0]:
+        BACK_CAM == True
+           
     #### save out video clips and make sure they go to the right place:
     if BACK_CAM == True:
         # save out task
