@@ -1,3 +1,7 @@
+# %% [markdown]
+# # import and functions 
+
+# %%
 import os
 import pandas as pd
 import numpy as np  
@@ -21,7 +25,7 @@ def process_camera_data(Camera_ts_raw):
     result = np.max(Camera_trig_states) == np.min(Camera_trig_states)
     
     # #pull out video name
-    # video_name = [TimeStampPath.split("//")[-1].split(".")[0] + '-camera-timestamp-data']
+    # video_name = [TimeStampPath.split("/")[-1].split(".")[0] + '-camera-timestamp-data']
 
     if not result:
 
@@ -187,7 +191,12 @@ def convert_date_format(date_str):
     formatted_date = date_obj.strftime('%d-%m-%Y')
     return formatted_date
 
+    
 
+# %% [markdown]
+# # pull in all paths
+
+# %%
 base_path = r"/ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/video//"
 save_path_base = r"/ceph/sjones/projects/sequence_squad/revision_data/organised_data/animals//"
 
@@ -228,9 +237,18 @@ for mouse_file in os.listdir(base_path):
                         break
                     
                     
+    
+   
+
+
+# %% [markdown]
+# # create directories and split out paths that have ephys data and havent been processed already
+
+# %%
 final_files_to_process = []
 final_full_files_to_process = []
 final_out_paths = []
+animals = []
 for i in range(len(files_to_process)):
     file = files_to_process[i]
     full_file = full_files_to_process[i]
@@ -238,6 +256,7 @@ for i in range(len(files_to_process)):
     # find save path
     full_cam_save_path = 'Error'
     current_amimal = full_file.split('/')[-1].split('__')[0]
+    animals += [current_amimal]
     for f_path in os.listdir(save_path_base):
         if current_amimal in f_path:
             full_cam_save_path = os.path.join(save_path_base, f_path)
@@ -261,6 +280,13 @@ for i in range(len(files_to_process)):
             full_cam_save_path_pre = os.path.join(full_cam_save_path, fi_path,'video','videos','1_presleep')
             full_cam_save_path_post = os.path.join(full_cam_save_path, fi_path,'video','videos','3_postsleep')
             process = True
+    
+    # temporary to remove all files
+    print('deleting')
+    print(full_cam_save_path, fi_path,'video')
+    if os.path.isdir(os.path.join(full_cam_save_path, fi_path,'video')):
+        shutil.rmtree(os.path.join(full_cam_save_path, fi_path,'video'))
+            
     if process == True:      
         #if not existing already, make a new dir
         for path in [full_cam_save_path_task, full_cam_save_path_pre, full_cam_save_path_post]:
@@ -280,18 +306,26 @@ for i in range(len(files_to_process)):
             final_files_to_process += [file]
             final_full_files_to_process += [full_file]
             final_out_paths += [[full_cam_save_path_task,full_cam_save_path_pre,full_cam_save_path_post]]
-            
-                                        
-for i in range(len(final_files_to_process)):
-    file = final_files_to_process[i]
-    full_file = final_full_files_to_process[i]
-    
-    full_cam_save_path_task = final_out_paths[i][0]
-    full_cam_save_path_pre = final_out_paths[i][1]
-    full_cam_save_path_post = final_out_paths[i][2]
 
+
+# %% [markdown]
+# # processing loop
+
+# %%
+for run_index in range(len(final_files_to_process)):
+    file = final_files_to_process[run_index]
+    full_file = final_full_files_to_process[run_index]
+    
+    current_amimal = animals[run_index]
+    
+    full_cam_save_path_task = final_out_paths[run_index][0]
+    full_cam_save_path_pre = final_out_paths[run_index][1]
+    full_cam_save_path_post = final_out_paths[run_index][2]
+
+    
     ### PROCESS 
-    print("*********** PROCESSING *************")
+    
+    print("**************** PROCESSING ****************")
     print(os.path.join(full_file, file))
 
     Camera_timestamps = pd.read_csv(os.path.join(full_file, file))
@@ -412,14 +446,12 @@ for i in range(len(final_files_to_process)):
         s = consecutive_chunks[-1][0]
         e = consecutive_chunks[-1][-1]
         plt.fill_between(range(s, e), max(np.diff(trigger_onset_times)), np.diff(trigger_onset_times)[s:e], color='yellow', alpha=0.4)
-        
-    plt.savefig(r"/ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump//" + "BACK_task_" + current_amimal + '_' +formatted_date + "_split_regions.png")
 
     # create dunp file for processing the videos with DLC 
-    DLC_dump_path_above = r"/ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/ABOVE//"
+    DLC_dump_path_above = r"/ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/ABOVE/"
     if not os.path.exists(DLC_dump_path_above):
         os.makedirs(DLC_dump_path_above)
-    DLC_dump_path_back = r"/ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/BACK//"
+    DLC_dump_path_back = r"/ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/BACK/"
     if not os.path.exists(DLC_dump_path_back):
         os.makedirs(DLC_dump_path_back)
         
@@ -428,7 +460,8 @@ for i in range(len(final_files_to_process)):
         BACK_CAM == True
     if 'timestamp_2' in final_files_to_process[0]:
         BACK_CAM == True
-           
+        
+        
     #### save out video clips and make sure they go to the right place:
     if BACK_CAM == True:
         # save out task
@@ -465,11 +498,6 @@ for i in range(len(final_files_to_process)):
         
     print('done')
         
-
-
-
-
-
 
 
 
