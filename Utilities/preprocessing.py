@@ -604,26 +604,52 @@ def Determine_Transition_Times_and_Types(All_PortIn_Times_sorted ,All_PortOut_Ti
 
 def Import_EPHYS_Bpod_DataFiles(InputPath,ephys_dates):
     '''
-    Load in all '.mat' files for a given folder if they are ephys sessions and convert them to python format:
+    Load in all '.mat' files for a given folder if they are ephys sessions and convert them to python format. If there are dulplicate dates, ie. more than one matlab file for a given reocridng 
+    day, then only keep the largest one:
     '''
     Behav_Path = sorted(os.listdir(InputPath))
-    Behav_Data = {} #set up file dict
-    File_dates = []
-    Sessions = 0 # for naming each data set within the main dict
-
+    sizes  = []
+    added_dates = []
+    to_process = []
     for file in Behav_Path:
         if file[-2] == 'a': #if its a .mat and not a fig
             if os.stat(InputPath+ file).st_size > 200000: #more thann 200kb 
+                sizes += [os.stat(InputPath+ file).st_size]
                 if file != '.DS_Store': #if file is not the weird hidden file 
                     
                     date = file.split('_')[-2][6:] + '-' + file.split('_')[-2][4:6] + '-' + file.split('_')[-2][:4]
-                    
+
                     if date in ephys_dates:
-                        print(file)
-                        Current_file = loadmat(InputPath + file)
-                        Behav_Data[Sessions] = Current_file
-                        Sessions = Sessions + 1
-                        File_dates = File_dates + [file[-19:-4]]
+                        if date in added_dates: # code incase there are multiple npoid files for a given recording day - just keep the largest one
+                            print('duplicate date')
+                            duplicate_index = np.where(np.array(added_dates) ==date)[0][0]
+                            # if old duplicate file is larger than current then keep it
+                            if sizes[duplicate_index] > sizes[-1]:
+                                print('not replacing')
+                            else:
+                                print('replacing with...')
+                                #remove old duplicate 
+                                to_process.pop(duplicate_index)
+                                added_dates.pop(duplicate_index)
+                                sizes.pop(duplicate_index)
+                                # replace with new one:
+                                print(file)
+                                added_dates += [date]
+                                to_process += [file]
+                        else:
+                            print(file)
+                            added_dates += [date]
+                            to_process += [file]
+                            
+    Behav_Data = {} #set up file dict
+    File_dates = []             
+    Sessions = 0 
+    for file in to_process: 
+        Current_file = loadmat(InputPath + file)
+        Behav_Data[Sessions] = Current_file
+        Sessions = Sessions + 1
+        File_dates = File_dates + [file[-19:-4]]
+        
     return Behav_Data, Sessions, Behav_Path,File_dates
 
 def check_and_create_directory(Save_path, Replace):
