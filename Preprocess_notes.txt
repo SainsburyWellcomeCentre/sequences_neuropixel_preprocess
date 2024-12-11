@@ -12,9 +12,31 @@ jupyter notebook
 - once vidoes are split and saved out into the organised folders run DLC
 
 3. DLC
+## run notebook script to generate shell scripts fr each tracking model:
+ssh emmettt@ssh.swc.ucl.ac.uk -o "ServerAliveInterval 120"
+ssh hpc-gw1
+screen 
+srun -p gpu --gres=gpu:1 -n 10 -t 5-22:00 --pty --mem=30G bash
+module load miniconda 
+module load cuda/11.6
+conda activate DEEPLABCUT 
+cd /ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/hpc
+
+chmod u+x FILE
+./Above.sh
+./Back.sh
+etc. 
+
+
 
 4. BPOD processing 
+preprocesses .mat bpod files
 
-5. ALIGNMENT
+5. to work out where the recordings were run the power spectrum analysis. This can be a bit heavy so is best run on the cluster
 
+6. ALIGNMENT
+alignment for behaviour and Ephys then sleep and ephys
+and then behaviour presleep, postsleep and cameras to create sync files
+
+7. setup PPseq… (maybe this should be its own repo?)
 

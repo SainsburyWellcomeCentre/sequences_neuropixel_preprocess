@@ -197,8 +197,8 @@ def convert_date_format(date_str):
 # # pull in all paths
 
 # %%
-base_path = r"/ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/video//"
-save_path_base = r"/ceph/sjones/projects/sequence_squad/revision_data/organised_data/animals//"
+base_path = r"/ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/video/"
+save_path_base = r"/ceph/sjones/projects/sequence_squad/revision_data/organised_data/animals/"
 
 files_to_process = []
 full_files_to_process = []
@@ -227,7 +227,7 @@ for mouse_file in os.listdir(base_path):
                     date_obj = datetime.strptime(date, '%d-%m-%Y')
                     date = date_obj.strftime('%Y-%m-%d')
                     
-                for forbidden_file in os.listdir(r"/ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/ephys/other_sessions//"):
+                for forbidden_file in os.listdir(r"/ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/ephys/other_sessions/"):
                     if mouse_file in forbidden_file and date in forbidden_file:
                         print(forbidden_file)
                         print(full_file)
@@ -237,18 +237,19 @@ for mouse_file in os.listdir(base_path):
                         break
                     
                     
-    
-   
+                
 
 
 # %% [markdown]
 # # create directories and split out paths that have ephys data and havent been processed already
 
 # %%
+
 final_files_to_process = []
 final_full_files_to_process = []
 final_out_paths = []
-animals = []
+
+# loop across every single camera file
 for i in range(len(files_to_process)):
     file = files_to_process[i]
     full_file = full_files_to_process[i]
@@ -256,7 +257,8 @@ for i in range(len(files_to_process)):
     # find save path
     full_cam_save_path = 'Error'
     current_amimal = full_file.split('/')[-1].split('__')[0]
-    animals += [current_amimal]
+    
+    # for all the animal folders in the save path
     for f_path in os.listdir(save_path_base):
         if current_amimal in f_path:
             full_cam_save_path = os.path.join(save_path_base, f_path)
@@ -264,7 +266,8 @@ for i in range(len(files_to_process)):
             full_cam_save_path = os.path.join(save_path_base, f_path)
         elif current_amimal.split('_')[0].lower() + current_amimal.split('_')[-1].lower()+'_' in f_path:
             full_cam_save_path = os.path.join(save_path_base, f_path)
-    
+
+
     date = full_file.split('/')[-1].split('__')[-1]
     if '_' in date:
         date = date.split('_')[0]
@@ -280,27 +283,34 @@ for i in range(len(files_to_process)):
             full_cam_save_path_pre = os.path.join(full_cam_save_path, fi_path,'video','videos','1_presleep')
             full_cam_save_path_post = os.path.join(full_cam_save_path, fi_path,'video','videos','3_postsleep')
             process = True
-    
-    # temporary to remove all files
-    print('deleting')
-    print(full_cam_save_path, fi_path,'video')
-    if os.path.isdir(os.path.join(full_cam_save_path, fi_path,'video')):
-        shutil.rmtree(os.path.join(full_cam_save_path, fi_path,'video'))
+            break
+            
+
+    # # temporary to remove all files
+    # print(full_cam_save_path, fi_path,'video')
+    # if os.path.isdir(os.path.join(full_cam_save_path, fi_path,'video')):
+    #     print('deleting')
+    #     shutil.rmtree(os.path.join(full_cam_save_path, fi_path,'video'))
             
     if process == True:      
         #if not existing already, make a new dir
         for path in [full_cam_save_path_task, full_cam_save_path_pre, full_cam_save_path_post]:
             if not os.path.isdir(path):
+                print('MAKING FILE DIR')
                 os.makedirs(path)
-                
+        
+        print('----------------')
+        print('raw video')
         print(os.path.join(full_file,file))
-        print(full_cam_save_path)
+        print('output dir')
+        print(full_cam_save_path_task)
         print('----------------')
         
         already_exists = False
         for file in os.listdir(full_cam_save_path_task):
             if '.avi' in file:
-                print('exits')
+                print(file)
+                print('ALREADY EXISTS')
                 already_exists = True
         if already_exists == False:
             final_files_to_process += [file]
@@ -313,15 +323,30 @@ for i in range(len(files_to_process)):
 
 # %%
 for run_index in range(len(final_files_to_process)):
+    
+    print('----------------NEXT DATA: --------------')
     file = final_files_to_process[run_index]
     full_file = final_full_files_to_process[run_index]
     
-    current_amimal = animals[run_index]
+    current_amimal = full_file.split('/')[-1].split('__')[0]
+    
+    date = full_file.split('/')[-1].split('__')[-1]
+    if '_' in date:
+        date = date.split('_')[0]
+    formatted_date = convert_date_format(date)
     
     full_cam_save_path_task = final_out_paths[run_index][0]
     full_cam_save_path_pre = final_out_paths[run_index][1]
     full_cam_save_path_post = final_out_paths[run_index][2]
+    
+    print('**in data')
+    print(os.path.join(full_file, file))
 
+    print(current_amimal)
+    print(formatted_date)
+    
+    print('**out dir')
+    print(full_cam_save_path_task)
     
     ### PROCESS 
     
@@ -497,7 +522,6 @@ for run_index in range(len(final_files_to_process)):
         postsleep_camera_dataframe.to_csv(full_cam_save_path_post + "/ABOVE_postleep_" + current_amimal + '_' +formatted_date + '_subclip_' + str(start) + '-' + str(end) + '.csv')
         
     print('done')
+    
+print('************* ALL DONE! **************')
         
-
-
-

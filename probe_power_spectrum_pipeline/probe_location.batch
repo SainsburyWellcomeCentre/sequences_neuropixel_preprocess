@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#SBATCH -p cpu # partition (queue)
+#SBATCH -N 1   # number of nodes
+#SBATCH --mem 25G # memory pool for all cores
+#SBATCH -n 10 # number of cores
+#SBATCH -t 0-08:10 # time (D-HH:MM)
+#SBATCH -o slurm_output_%j.out  # %j adds the job ID to the output filename
+#SBATCH -e slurm_error_%j.err   # %j adds the job ID to the error filename
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=antonio.nieto.23@ucl.ac.uk
+
+module load miniconda
+conda activate kilosort
+
+python /ceph/scratch/antoniocn/code/probe-location/FNT_probe_localization/main_probe_location.py
