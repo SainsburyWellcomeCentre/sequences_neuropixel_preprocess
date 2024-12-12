@@ -62,7 +62,7 @@ class probe_mapper():
      or four shanks. 
     '''
 
-    def __init__(self, mouse, session, dir_path,OUTPUT, mode = 'four_shanks', fourier_mode = 'welch', segment = 0):
+    def __init__(self, mouse, session, dir_path,mousepath, mode = 'four_shanks', fourier_mode = 'welch', segment = 0):
 
         self.mouse = mouse
         self.session  = session
@@ -72,15 +72,11 @@ class probe_mapper():
         self.segment = segment
 
 
-        self.node_path = get_record_node_path(dir_path)
+        self.node_path = dir_path
         print(self.node_path)
 
-        mousepath = OUTPUT  / mouse
+        self.output_path =  mousepath 
 
-        if self.segment == 0:
-            self.output_path =  mousepath / f'{session}_{mode}'
-        else:
-            self.output_path =  mousepath / f'{session}_{mode}_segment{self.segment}'
 
         self.output_path.mkdir(parents=True, exist_ok=True)
         #reading
@@ -328,16 +324,16 @@ class  whole_probe():
     over the whole probe. 
     '''
 
-    def __init__(self, mouse, mode = 'four_shanks'):
+    def __init__(self, mouse,OUTPUT, mode = 'four_shanks'):
 
         self.mouse  = mouse
         self.mode = mode
 
         self.probemap = pd.DataFrame()
 
-        self.root_path = OUTPUT  / self.mouse 
+        self.root_path = OUTPUT  
 
-        mousepath = OUTPUT  / self.mouse
+        mousepath = OUTPUT
         mousepath.mkdir(exist_ok=True)
 
         if self.mode == 'one_shank':
@@ -359,7 +355,7 @@ class  whole_probe():
 
                 dir_path = os.path.join(root, directory)
 
-                if dir_path.endswith(self.mode):
+                if not dir_path.endswith(self.mode):
 
                     self.colect_data(dir_path)
         
