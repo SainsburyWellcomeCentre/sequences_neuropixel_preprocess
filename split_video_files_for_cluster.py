@@ -433,11 +433,11 @@ for run_index in range(len(final_files_to_process)):
     BACK_CAM = False
     
     # temporary fix because for one animal the above auto thing doesnt work  
-    if 'camera2' in final_files_to_process[0]:
+    if 'camera2' in file:
         BACK_CAM == True
-    if 'timestamp_2' in final_files_to_process[0]:
+    if 'timestamp_2' in file:
         BACK_CAM == True
-
+        
     # # NICER but for one animal slightly error prone WAY BASED ON COUNTING CIRCLES IN FRAMES 
     # for count in circles_count:
     #     if count > count_threshold:
@@ -525,3 +525,4 @@ for run_index in range(len(final_files_to_process)):
         
     print('done')
         
+print('ALL DONE')
