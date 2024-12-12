@@ -25,7 +25,7 @@ def process_camera_data(Camera_ts_raw):
     result = np.max(Camera_trig_states) == np.min(Camera_trig_states)
     
     # #pull out video name
-    # video_name = [TimeStampPath.split("/")[-1].split(".")[0] + '-camera-timestamp-data']
+    # video_name = [TimeStampPath.split("//")[-1].split(".")[0] + '-camera-timestamp-data']
 
     if not result:
 
@@ -197,8 +197,8 @@ def convert_date_format(date_str):
 # # pull in all paths
 
 # %%
-base_path = r"/ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/video/"
-save_path_base = r"/ceph/sjones/projects/sequence_squad/revision_data/organised_data/animals/"
+base_path = r"/ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/video//"
+save_path_base = r"/ceph/sjones/projects/sequence_squad/revision_data/organised_data/animals//"
 
 files_to_process = []
 full_files_to_process = []
@@ -227,7 +227,7 @@ for mouse_file in os.listdir(base_path):
                     date_obj = datetime.strptime(date, '%d-%m-%Y')
                     date = date_obj.strftime('%Y-%m-%d')
                     
-                for forbidden_file in os.listdir(r"/ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/ephys/other_sessions/"):
+                for forbidden_file in os.listdir(r"/ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/ephys/other_sessions//"):
                     if mouse_file in forbidden_file and date in forbidden_file:
                         print(forbidden_file)
                         print(full_file)
@@ -431,15 +431,22 @@ for run_index in range(len(final_files_to_process)):
     count_threshold = 5
     consecutive_count = 0
     BACK_CAM = False
+    
+    # temporary fix because for one animal the above auto thing doesnt work  
+    if 'camera2' in final_files_to_process[0]:
+        BACK_CAM == True
+    if 'timestamp_2' in final_files_to_process[0]:
+        BACK_CAM == True
 
-    for count in circles_count:
-        if count > count_threshold:
-            consecutive_count += 1
-            if consecutive_count >= consecutive_threshold:
-                BACK_CAM = True
-                break
-        else:
-            consecutive_count = 0
+    # # NICER but for one animal slightly error prone WAY BASED ON COUNTING CIRCLES IN FRAMES 
+    # for count in circles_count:
+    #     if count > count_threshold:
+    #         consecutive_count += 1
+    #         if consecutive_count >= consecutive_threshold:
+    #             BACK_CAM = True
+    #             break
+    #     else:
+    #         consecutive_count = 0
 
     print(BACK_CAM)
 
@@ -456,7 +463,7 @@ for run_index in range(len(final_files_to_process)):
     postsleep_camera_dataframe = Camera_dataframe[trigger_onset_inds[consecutive_chunks[-1][0]]::].reset_index(drop=True)
     postsleep_camera_dataframe.rename(columns={'Time Stamps': 'origional_video_ts'}, inplace=True)
     postsleep_camera_dataframe['Time Stamps'] = postsleep_camera_dataframe['origional_video_ts'] - postsleep_camera_dataframe['origional_video_ts'][0]
-
+    
     ## save out the split csv files for each epoch
     if BACK_CAM == True:
         plt.plot(np.diff(trigger_onset_times))  
@@ -473,18 +480,13 @@ for run_index in range(len(final_files_to_process)):
         plt.fill_between(range(s, e), max(np.diff(trigger_onset_times)), np.diff(trigger_onset_times)[s:e], color='yellow', alpha=0.4)
 
     # create dunp file for processing the videos with DLC 
-    DLC_dump_path_above = r"/ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/ABOVE/"
+    DLC_dump_path_above = r"/ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/ABOVE//"
     if not os.path.exists(DLC_dump_path_above):
         os.makedirs(DLC_dump_path_above)
-    DLC_dump_path_back = r"/ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/BACK/"
+    DLC_dump_path_back = r"/ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/BACK//"
     if not os.path.exists(DLC_dump_path_back):
         os.makedirs(DLC_dump_path_back)
         
-    # temporary fix because for one animal the above auto thing doesnt work  
-    if 'camera2' in final_files_to_process[0]:
-        BACK_CAM == True
-    if 'timestamp_2' in final_files_to_process[0]:
-        BACK_CAM == True
         
         
     #### save out video clips and make sure they go to the right place:
@@ -522,6 +524,4 @@ for run_index in range(len(final_files_to_process)):
         postsleep_camera_dataframe.to_csv(full_cam_save_path_post + "/ABOVE_postleep_" + current_amimal + '_' +formatted_date + '_subclip_' + str(start) + '-' + str(end) + '.csv')
         
     print('done')
-    
-print('************* ALL DONE! **************')
         
