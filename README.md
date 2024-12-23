@@ -1,5 +1,6 @@
-# neuropixel data preprocessing
+# Neuropixel data preprocessing
 scripts for processing data collected during ephys recordings for the 8 port sequence task
+See our publication for more details: [Replay of Procedural Experience is Independent of the Hippocampus](https://www.biorxiv.org/content/10.1101/2024.06.05.597547v1.full.pdf).
 
 # Overview: 
 - there are three main data streams (ephys, behaviour and video data)
