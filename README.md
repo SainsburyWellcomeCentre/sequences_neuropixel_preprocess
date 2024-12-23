@@ -26,7 +26,9 @@ The code is organised into 6 scripts which should be executed in order:
 
 # TTL alignment (synchronisartion) structure: 
 
-
+Bpod (behvaioural controller) acts as the central clock, sending TTLs to the ephys niDAQ and the camera GPIO pins. 
 ![Processing pipeline](images/ttl_clock.png)
+The recording epoch is split into sleep and task periods. During sleep Bpod acts like a heart beat, sending pulses every 30s. During the task, TTLs are sent based on the trial structure (ITI depends on the behaviur of the mouse)
 ![Processing pipeline](images/TTL_task_structure.png)
+TTL output during the task goes high at trial start (when bpod loads a new trial), and stays high until the mouse pokes into the first task port in the sequence (ie. port 1 of 5, not just any port!) 
 ![Processing pipeline](images/task_ttl_relationship.png)
