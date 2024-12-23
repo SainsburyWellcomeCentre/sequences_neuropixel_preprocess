@@ -32,3 +32,13 @@ The recording epoch is split into sleep and task periods. During sleep Bpod acts
 ![Processing pipeline](images/TTL_task_structure.png)
 TTL output during the task goes high at trial start (when bpod loads a new trial), and stays high until the mouse pokes into the first task port in the sequence (ie. port 1 of 5, not just any port!) 
 ![Processing pipeline](images/task_ttl_relationship.png)
+
+## Getting Started
+
+Ensure you have the following software installed:
+- [Git](https://git-scm.com/)
+- [Python](https://www.python.org/downloads/)  (Version used: 3.12.3)
+- Jupyter notebook
+- Necessary Python libraries: this pipeline worked with the environment I have listed in requirements.txt (though some of these packages may be redundant..also some may be missing, but they should be easy to find!)
+- IMPORTANT! make sure to use moviepy version 1.0.3. the newer one at time of writing (december 2024) seems to be broken 
+
