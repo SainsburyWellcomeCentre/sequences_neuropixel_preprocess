@@ -1,0 +1,8 @@
+srun -p cpu -t 2-22:00 -c 10 --pty --mem=30G bash
+
+brainreg ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq006/stitchedImages_100/2
+ Z:\projects\Jasvin\AP5\histology\brainreg\EJT179\ 
+-v 5 2.278 2.278 
+-d ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq006/stitchedImages_100/3
+--orientation psl
+
