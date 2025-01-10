@@ -22,7 +22,8 @@ This processing pipeline assumes the following data collection methods:
 
 # Processing pipeline: 
 The code is organised into 6 scripts which should be executed in order:
-- 1: Takes the raw ephys (OE output) and uses the spike interface architecture to create a probe object (an active channel map) and subsequentloy spikesort the data (using Kilosort 4).
+
+1.  Takes the raw ephys (OE output) and uses the spike interface architecture to create a probe object (an active channel map) and subsequentloy spikesort the data (using Kilosort 4).
   
 As well as spike interface (https://spikeinterface.readthedocs.io/en/stable/) this step requires kilosort 4 is installed (https://github.com/MouseLand/Kilosort). Ksort is not very fast but will run much faster if it has access to a gpu. See the file called HPC_helpsheet for tips on running this code on the cluster.
 
