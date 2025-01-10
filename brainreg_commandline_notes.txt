@@ -1,8 +1,33 @@
-srun -p cpu -t 2-22:00 -c 10 --pty --mem=30G bash
+if first time:
+# create a conda env:
+conda create --name ENV_NAME python=3.12
+# install brain reg:
+# https://brainglobe.info/documentation/brainreg/installation.html
+conda install -c conda-forge brainreg
 
-brainreg ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq006/stitchedImages_100/2
- Z:\projects\Jasvin\AP5\histology\brainreg\EJT179\ 
--v 5 2.278 2.278 
--d ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq006/stitchedImages_100/3
---orientation psl
+
+
+
+# on the hpc:
+srun -p cpu -t 1-22:00 -c 10 --pty --mem=30G bash
+module load minoconda
+conda activate brainreg
+# run brainreg
+
+brainreg /ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq006/stitchedImages_100/2 /ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq006/ -v 20 8.008 8.008 -d /ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq006/stitchedImages_100/3 --orientation psl
+
+brainreg /ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq007/stitchedImages_100/2 /ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq007/ -v 20 8.008 8.008 -d /ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq007/stitchedImages_100/3 --orientation psl
+
+brainreg /ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq008/stitchedImages_100/2 /ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq008/ -v 20 8.008 8.008 -d /ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq008/stitchedImages_100/3 --orientation psl
+
+
+
+brainreg Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq006/stitchedImages_100/2 Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/brainreg_output/seq006/ -v 20 8.008 8.008 -d Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq006/stitchedImages_100/3 --orientation psl
+
+brainreg Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq007/stitchedImages_100/2 Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/brainreg_output/seq007/ -v 20 8.008 8.008 -d Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq007/stitchedImages_100/3 --orientation psl
+
+brainreg Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq008/stitchedImages_100/2 Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/brainreg_output/seq008/ -v 20 8.008 8.008 -d Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq008/stitchedImages_100/3 --orientation psl
+
+
+
 
