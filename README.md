@@ -59,9 +59,11 @@ The code is organized into 6 phases (based on 6 notebook scripts) that should be
 - Script creates `.sh` shell script files which can be executed on the cluster to perform deeplabcut tracking 
 - 
 - #### Requirements:
-- [SpikeInterface](https://spikeinterface.readthedocs.io/en/stable/)
+- [Deeplabcut](https://deeplabcut.github.io/DeepLabCut/README.html)
+- Refer to the `HPC_helpsheet` file for tips on running this step on a computing cluster.
 
----
+- #### output
+- behaviour port and mouse tracking files for each video in the organised directory
 
 ## 4. [To Be Detailed]
 
