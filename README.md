@@ -21,7 +21,7 @@ This processing pipeline assumes the following data collection methods:
 - Synchronisation (see TTL alignment below)
 
 # Processing pipeline: 
-The code is organised into 6 scripts which should be executed in order:
+The code is organised into 6 phases (based around 6 notebook scripts) which should be executed in order:
 
 1.  Takes the raw ephys (OE output) and uses the spike interface architecture to create a probe object (an active channel map) and subsequentloy spikesort the data (using Kilosort 4).
   
