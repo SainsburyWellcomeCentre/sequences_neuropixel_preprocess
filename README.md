@@ -23,13 +23,13 @@ This processing pipeline assumes the following data collection methods:
 # Processing pipeline: 
 The code is organised into 6 phases (based around 6 notebook scripts) which should be executed in order:
 
-1.  Takes the raw ephys (OE output) and uses the spike interface architecture to create a probe object for each Probe (an active channel map) and subsequentloy spikesort the data for each (using Kilosort 4).
+##1.  Takes the raw ephys (OE output) and uses the spike interface architecture to create a probe object for each Probe (an active channel map) and subsequentloy spikesort the data for each (using Kilosort 4).
   
 As well as spike interface (https://spikeinterface.readthedocs.io/en/stable/) this step requires kilosort 4 is installed (https://github.com/MouseLand/Kilosort). Ksort is not very fast but will run much faster if it has access to a gpu. See the file called HPC_helpsheet for tips on running this code on the cluster.
 
 This step will create organised file directories for each recording
 
-2.  Takes the video output from bonsai (.avi video files and .csv timestamp files), converts the timestamps into seconds and (based on the trigger times - see TTL alignment) seperates and labels the 3 experimental phases of the vidoes.
+##2.  Takes the video output from bonsai (.avi video files and .csv timestamp files), converts the timestamps into seconds and (based on the trigger times - see TTL alignment) seperates and labels the 3 experimental phases of the vidoes.
 
 This stage also copies the raw.avi files into the organised file directory and into a dump folder (that will be used later as a source directory for running the tracking with DLC)
  
