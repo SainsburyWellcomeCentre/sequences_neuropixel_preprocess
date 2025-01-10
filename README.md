@@ -20,10 +20,12 @@ This processing pipeline assumes the following data collection methods:
 - FLIR Cameras aligned above and below the task/sleep arenas, set with GPIO receiveing triggers, avi and stamps data saved via bonsai
 - Synchronisation (see TTL alignment below)
 
-# Code:
+# Processing pipeline: 
 The code is organised into 6 scripts which should be executed in order:
 - 1: this script...
 - 2: this script...
+
+  
 
 # TTL alignment (synchronisartion) structure: 
 
