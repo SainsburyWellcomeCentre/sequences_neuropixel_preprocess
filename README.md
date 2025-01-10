@@ -36,8 +36,9 @@ The code is organized into 6 phases (based on 6 notebook scripts) that should be
   - *Note*: Kilosort is computationally intensive but performs significantly faster with GPU access.
   - Refer to the `HPC_helpsheet` file for tips on running this step on a computing cluster.
 
-### Output:
+#### Output:
 - Organized file directories for each recording.
+- kilosort output (spike times) for each probe
 
 ---
 
