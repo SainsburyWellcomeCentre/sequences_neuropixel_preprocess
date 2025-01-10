@@ -20,23 +20,56 @@ This processing pipeline assumes the following data collection methods:
 - FLIR Cameras aligned above and below the task/sleep arenas, set with GPIO receiveing triggers, avi and stamps data saved via bonsai
 - Synchronisation (see TTL alignment below)
 
-# Processing pipeline: 
-The code is organised into 6 phases (based around 6 notebook scripts) which should be executed in order:
+# Processing Pipeline
 
-# 1.  Takes the raw ephys (OE output) and uses the spike interface architecture to create a probe object for each Probe (an active channel map) and subsequentloy spikesort the data for each (using Kilosort 4).
-  
-As well as spike interface (https://spikeinterface.readthedocs.io/en/stable/) this step requires kilosort 4 is installed (https://github.com/MouseLand/Kilosort). Ksort is not very fast but will run much faster if it has access to a gpu. See the file called HPC_helpsheet for tips on running this code on the cluster.
+The code is organized into 6 phases (based on 6 notebook scripts) that should be executed in order:
 
-This step will create organised file directories for each recording
+---
 
-# 2.  Takes the video output from bonsai (.avi video files and .csv timestamp files), converts the timestamps into seconds and (based on the trigger times - see TTL alignment) seperates and labels the 3 experimental phases of the vidoes.
+## 1. Spike Sorting and Probe Setup
+- Processes the raw electrophysiology (ephys) data (Open Ephys output) using the **SpikeInterface** architecture.
+- Creates a probe object for each probe (active channel map) and spikesorts the data using **Kilosort 4**.
 
-This stage also copies the raw.avi files into the organised file directory and into a dump folder (that will be used later as a source directory for running the tracking with DLC)
- 
-3.  Creates .sh files 
-- 4:
-- 5:
-- 6:
+### Requirements:
+- [SpikeInterface](https://spikeinterface.readthedocs.io/en/stable/)
+- [Kilosort 4](https://github.com/MouseLand/Kilosort)
+  - *Note*: Kilosort is computationally intensive but performs significantly faster with GPU access.
+  - Refer to the `HPC_helpsheet` file for tips on running this step on a computing cluster.
+
+### Output:
+- Organized file directories for each recording.
+
+---
+
+## 2. Video Processing and Alignment
+- Processes the video output from Bonsai (.avi video files and .csv timestamp files):
+  1. Converts timestamps into seconds.
+  2. Separates and labels the three experimental phases of the videos using trigger times (see **TTL Alignment**).
+
+### Additional Features:
+- Copies the raw `.avi` files into:
+  - The organized file directory.
+  - A dump folder (used later as the source directory for running tracking with **DeepLabCut**).
+
+---
+
+## 3. Script Generation
+- Creates `.sh` files for further processing.
+
+---
+
+## 4. [To Be Detailed]
+
+## 5. [To Be Detailed]
+
+## 6. [To Be Detailed]
+
+---
+
+### Notes:
+- Ensure all dependencies are installed before running the pipeline.
+- For detailed configuration instructions, refer to the individual scripts or documentation in the repository.
+
   
 
   
