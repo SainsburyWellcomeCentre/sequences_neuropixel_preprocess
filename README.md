@@ -65,21 +65,21 @@ This processing pipeline assumes the following data collection methods:
 - #### output
 - Tracking files (behavioural port and mouse head centre) for each video in the organised directory
 
+---
+
 ## 4. Bpod processing
 - takes the raw `.mat` ouput from bpod, processes this data and converts the values into a useful python readable format
 
 - #### output
 - processed behavioural data files which are stored in the organised data directory
 - 
-## 5. [To Be Detailed]
+## 5. Probe alignment (histology) 
+- 
 
 ## 6. [To Be Detailed]
 
 ---
 
-### Notes:
-- Ensure all dependencies are installed before running the pipeline.
-- For detailed configuration instructions, refer to the individual scripts or documentation in the repository.
 
   
 
