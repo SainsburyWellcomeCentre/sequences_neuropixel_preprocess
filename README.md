@@ -22,11 +22,11 @@ This processing pipeline assumes the following data collection methods:
 
 # Processing Pipeline
 
-The code is organized into 6 phases (based on 6 notebook scripts) that should be executed in order:
+### the code is organized into 6 phases (based on 6 notebook scripts) that should be executed in order:
 
 ---
 
-## 1. Spike Sorting and Probe Setup
+## 1. Ephys processing
 - Processes the raw electrophysiology (ephys) data (Open Ephys output) using the **SpikeInterface** architecture.
 - Creates a probe object for each probe (active channel map) and spikesorts the data using **Kilosort 4**.
 
@@ -42,7 +42,7 @@ The code is organized into 6 phases (based on 6 notebook scripts) that should be
 
 ---
 
-## 2. Video Processing and Alignment
+## 2. Video processing
 - Processes the video output from Bonsai (.avi video files and .csv timestamp files):
   1. Converts timestamps into seconds.
   2. Separates and labels the three experimental phases of the videos using trigger times (see **TTL Alignment**).
@@ -63,10 +63,14 @@ The code is organized into 6 phases (based on 6 notebook scripts) that should be
 - Refer to the `HPC_helpsheet` file for tips on running this step on a computing cluster.
 
 - #### output
-- behaviour port and mouse tracking files for each video in the organised directory
+- Tracking files (behavioural port and mouse head centre) for each video in the organised directory
 
-## 4. [To Be Detailed]
+## 4. Bpod processing
+- takes the raw `.mat` ouput from bpod, processes this data and converts the values into a useful python readable format
 
+- #### output
+- processed behavioural data files which are stored in the organised data directory
+- 
 ## 5. [To Be Detailed]
 
 ## 6. [To Be Detailed]
