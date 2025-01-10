@@ -73,8 +73,13 @@ This processing pipeline assumes the following data collection methods:
 - #### output
 - processed behavioural data files which are stored in the organised data directory
 - 
-## 5. Probe alignment (histology) 
-- 
+## 5. Spectral alignment / histology (Probe location)
+-  The aim of this step is the know where in the brain each kilsorted unit was located.
+-  This can be done based on spectral analysis of the ephys data (what the signal looked like) or by looking at the probe trace in the brain (or both together)
+
+- PROBE SPECTRAL ANALYSIS: running the script provided should perform this analysis
+  ** note: you may need multiple recordings across the entire length of the probe for this analysis to be useful. 
+
 
 ## 6. [To Be Detailed]
 
