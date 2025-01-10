@@ -30,7 +30,7 @@ The code is organized into 6 phases (based on 6 notebook scripts) that should be
 - Processes the raw electrophysiology (ephys) data (Open Ephys output) using the **SpikeInterface** architecture.
 - Creates a probe object for each probe (active channel map) and spikesorts the data using **Kilosort 4**.
 
-### Requirements:
+#### Requirements:
 - [SpikeInterface](https://spikeinterface.readthedocs.io/en/stable/)
 - [Kilosort 4](https://github.com/MouseLand/Kilosort)
   - *Note*: Kilosort is computationally intensive but performs significantly faster with GPU access.
@@ -46,16 +46,20 @@ The code is organized into 6 phases (based on 6 notebook scripts) that should be
 - Processes the video output from Bonsai (.avi video files and .csv timestamp files):
   1. Converts timestamps into seconds.
   2. Separates and labels the three experimental phases of the videos using trigger times (see **TTL Alignment**).
+  3. automaticaly detects and labels video type (back view or above view camera) 
 
-### Additional Features:
-- Copies the raw `.avi` files into:
-  - The organized file directory.
-  - A dump folder (used later as the source directory for running tracking with **DeepLabCut**).
+#### Output:
+- renames and copies the raw `.avi` files into the organized file directory.
+- Copies this same file into a dump folder (used in the next stage as the source directory for running tracking with DeepLabCut).
+- creates a camera timstamp dataframe file for each video 
 
 ---
 
-## 3. Script Generation
-- Creates `.sh` files for further processing.
+## 3. Video tracking
+- Script creates `.sh` shell script files which can be executed on the cluster to perform deeplabcut tracking 
+- 
+- #### Requirements:
+- [SpikeInterface](https://spikeinterface.readthedocs.io/en/stable/)
 
 ---
 
