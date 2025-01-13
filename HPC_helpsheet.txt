@@ -1,0 +1,61 @@
+log into the SWC HPC...
+eg.
+ssh USERNAME@ssh.swc.ucl.ac.uk -o "ServerAliveInterval 120"
+ssh hpc-gw1
+
+(its worth running these processes inside a screen or tmux session as they take a long time and you may lose connection) 
+-------------------------------------------------------------------------------
+1. Kilosort
+
+- load the miniconda module:
+
+module load miniconda 
+
+- Convert the notebook script to a .py file (make sure paths are suitable for the hpc and unix) and copy it to your workspace on the hpc
+- Create a conda environment and inside it, download and follow all the Kilosort installation instructions
+- Kilosort requires a gpu so use the following command to ask for a partition: 
+
+srun -p gpu --gres=gpu:1 -n 20 -t 3-22:00 --exclusive --pty --mem=40G bash
+
+- load cuda module: 
+
+module load cuda/11.6
+
+- make sure you are in the kilsort environment you created and execute the code:
+
+python SCRIPT.py
+
+-------------------------------------------------------------------------------
+
+3. video tracking
+
+- create a new environment "DEEPLABCUT" and install DLC inside it. 
+- run notebook script to generate shell scripts for each tracking model.
+- run the following commands:
+
+srun -p gpu --gres=gpu:1 -n 5 -t 5-22:00 --pty --mem=30G bash
+module load miniconda 
+module load cuda/11.6
+conda activate DEEPLABCUT 
+cd /ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/hpc
+
+- check the hpc is using the right python by running
+
+which python
+
+- if it is not using the DEEPLABCUT environment python then run 
+
+module unload miniconda
+
+- change directory to the path where you shell scripts are (output of the notebook script). eg. 
+
+cd /ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/hpc
+
+- you may need to run this command first
+
+chmod u+x FILE
+
+- then execute the shell scripts
+./Above.sh
+./Back.sh
+etc. 
