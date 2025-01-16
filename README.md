@@ -56,32 +56,38 @@ This processing pipeline assumes the following data collection methods:
 ---
 
 ## 3. Video tracking
-- Script creates `.sh` shell script files which can be executed on the cluster to perform deeplabcut tracking 
+- Create tracking files for each video
+- 1. notebook script creates `.sh` shell script files which can be executed on the cluster to perform deeplabcut tracking 
+- 2. use DLC to create 
 - 
-- #### Requirements:
+#### Requirements:
 - [Deeplabcut](https://deeplabcut.github.io/DeepLabCut/README.html)
 - Refer to the `HPC_helpsheet` file for tips on running this step on a computing cluster.
 
-- #### output
+#### output
 - Tracking files (behavioural port and mouse head centre) for each video in the organised directory
 
 ---
 
 ## 4. Bpod processing
-- takes the raw `.mat` ouput from bpod, processes this data and converts the values into a useful python readable format
+- Notebook script takes the raw `.mat` ouput from bpod, processes this data and converts the values into a useful python readable format
 
-- #### output
+#### output
 - processed behavioural data files which are stored in the organised data directory
-- 
+
+---
+
 ## 5. Spectral alignment / histology (Probe location)
 -  The aim of this step is the know where in the brain each kilsorted unit was located.
 -  This can be done based on spectral analysis of the ephys data (what the signal looked like) or by looking at the probe trace in the brain (or both together)
 
 - PROBE SPECTRAL ANALYSIS: running the script provided should perform this analysis
-  ** note: you may need multiple recordings across the entire length of the probe for this analysis to be useful. 
+  ** note: you may need multiple recordings across the entire length of the probe for this analysis to be useful.
+
+- HISTOLOGY
 
 
-## 6. [To Be Detailed]
+## 6. Data Alignment 
 
 ---
 
