@@ -58,36 +58,53 @@ This processing pipeline assumes the following data collection methods:
 ## 3. Video tracking
 - Create tracking files for each video
 - 1. notebook script creates `.sh` shell script files which can be executed on the cluster to perform deeplabcut tracking 
-- 2. use DLC to create 
-- 
+- 2. use DLC to create tracking files. 
+  
 #### Requirements:
 - [Deeplabcut](https://deeplabcut.github.io/DeepLabCut/README.html)
 - Refer to the `HPC_helpsheet` file for tips on running this step on a computing cluster.
 
-#### output
+#### Output
 - Tracking files (behavioural port and mouse head centre) for each video in the organised directory
 
 ---
 
 ## 4. Bpod processing
 - Notebook script takes the raw `.mat` ouput from bpod, processes this data and converts the values into a useful python readable format
-
-#### output
+** to use this file, you will need to update the paths to the data
+  
+#### Output
 - processed behavioural data files which are stored in the organised data directory
 
 ---
 
-## 5. Spectral alignment / histology (Probe location)
--  The aim of this step is the know where in the brain each kilsorted unit was located.
+## 5. Probe location 
+-  The aim of this step is the know where in the brain each kilsorted unit was located. The output of this step is used in the following alignment stage
 -  This can be done based on spectral analysis of the ephys data (what the signal looked like) or by looking at the probe trace in the brain (or both together)
 
-- PROBE SPECTRAL ANALYSIS: running the script provided should perform this analysis
+PROBE SPECTRAL ANALYSIS
+- running the script provided should perform this analysis
   ** note: you may need multiple recordings across the entire length of the probe for this analysis to be useful.
 
-- HISTOLOGY
+HISTOLOGY
+- prepare tissue (perfusion)
+- image the full brain (serial section)
+- align the brain to the Allen atlas using [brainreg](https://github.com/MouseLand/Kilosort](https://brainglobe.info/documentation/brainreg/index.html)
+- trace the probe track using [brainreg segment](https://brainglobe.info/documentation/brainglobe-segmentation/index.html)
+- save the output
 
+---
 
 ## 6. Data Alignment 
+-  The aim of this step is to align the 3 datasets to the same timeframe
+-  The notebook script provided goes through different steps which produce output files in the organised directory
+** to use this file, you will need to update the paths to the data
+
+
+#### Output
+- spike file dataframes with depth and brain region information
+- syncrhonisation files which align behaviour + ephys + video data
+- synchroniosation files which align ephys + video data for pre/post sleep periods
 
 ---
 
