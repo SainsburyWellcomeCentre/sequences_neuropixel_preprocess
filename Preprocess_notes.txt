@@ -1,0 +1,54 @@
+1.SPIKESORTING
+- enter the spike interface env: 
+conda activate si_env
+- run notebook
+jupyter notebook
+- run initial_preprocess_raw.ipynb 
+- this will create organised file directories and run kilosort for each probe, and for each recording
+
+## running on hpc 
+srun -p gpu --gres=gpu:1 -n 20 -t 3-22:00 --exclusive --pty --mem=40G bash
+module load miniconda 
+module load cuda/11.6
+conda activate KILOSORT4
+cd code
+python initial_ephys_preprocess.py
+
+2. VIDEOS
+- run split video files (this can be done on the cluster using the .py file) 
+- make sure to use moviepy version 1.0.3. the newer one is broken 
+- once vidoes are split and saved out into the organised folders run DLC
+
+3. DLC
+## run notebook script to generate shell scripts fr each tracking model:
+ssh emmettt@ssh.swc.ucl.ac.uk -o "ServerAliveInterval 120"
+ssh hpc-gw1
+screen 
+srun -p gpu --gres=gpu:1 -n 4 -t 5-22:00 --pty --mem=30G bash
+module load miniconda 
+module load cuda/11.6
+conda activate DEEPLABCUT 
+cd /ceph/sjones/projects/sequence_squad/revision_data/emmett_revisions/DLC_video_dump/hpc
+
+chmod u+x FILE
+./Above.sh
+./Back.sh
+etc. 
+
+
+4. BPOD processing 
+preprocesses .mat bpod files
+
+5. to work out where the recordings were run the power spectrum analysis. This can be a bit heavy so is best run on the cluster
+
+
+Brainreg:
+srun -p cpu -t 2-22:00 -c 10 --pty --mem=30G bash
+
+
+6. ALIGNMENT
+alignment for behaviour and Ephys then sleep and ephys
+and then behaviour presleep, postsleep and cameras to create sync files
+
+7. setup PPseq… (maybe this should be its own repo?)
+
