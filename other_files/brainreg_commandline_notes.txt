@@ -22,7 +22,11 @@ brainreg /ceph/sjones/projects/sequence_squad/revision_data/lars_recordings/seri
 
 
 
-brainreg Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq006/stitchedImages_100/2 Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/brainreg_output/seq006/ -v 20 8.008 8.008 -d Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq006/stitchedImages_100/3 --orientation psl
+brainreg Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/LBR_20241103_156/stitchedImages_100/2 Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/brainreg_output/LBR_20241103_156/ -v 20 8.008 8.008 -d Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/LBR_20241103_156/stitchedImages_100/3 --orientation psl
+
+
+
+
 
 brainreg Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq007/stitchedImages_100/2 Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/brainreg_output/seq007/ -v 20 8.008 8.008 -d Z:/projects/sequence_squad/revision_data/lars_recordings/serial_section/seq007/stitchedImages_100/3 --orientation psl
 

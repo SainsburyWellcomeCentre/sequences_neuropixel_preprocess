@@ -11,6 +11,10 @@ ssh hpc-gw1
 
 module load miniconda 
 
+acitvate your kilosort environment
+
+conda activate YOUR_ENV
+
 - Convert the notebook script to a .py file (make sure paths are suitable for the hpc and unix) and copy it to your workspace on the hpc
 - Create a conda environment and inside it, download and follow all the Kilosort installation instructions
 - Kilosort requires a gpu so use the following command to ask for a partition: 
