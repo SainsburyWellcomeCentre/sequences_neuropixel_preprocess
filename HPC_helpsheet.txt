@@ -1,7 +1,7 @@
 log into the SWC HPC...
 eg.
 ssh USERNAME@ssh.swc.ucl.ac.uk -o "ServerAliveInterval 120"
-ssh hpc-gw1
+ssh hpc-gw2
 
 (its worth running these processes inside a screen or tmux session as they take a long time and you may lose connection) 
 -------------------------------------------------------------------------------

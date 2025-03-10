@@ -50,5 +50,7 @@ srun -p cpu -t 2-22:00 -c 10 --pty --mem=30G bash
 alignment for behaviour and Ephys then sleep and ephys
 and then behaviour presleep, postsleep and cameras to create sync files
 
+- there is a weird bug with some versionsof open ephys tools, I know it works with version 0.1.12
+
 7. setup PPseq… (maybe this should be its own repo?)
 
