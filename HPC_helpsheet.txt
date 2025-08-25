@@ -4,6 +4,22 @@ ssh USERNAME@192.168.234.2 -o "ServerAliveInterval 120"
 
 (its worth running these processes inside a screen or tmux session as they take a long time and you may lose connection) 
 -------------------------------------------------------------------------------
+module load miniconda 
+
+acitvate your kilosort environment
+
+conda activate YOUR_ENV
+
+module load cuda/11.6
+
+create the dataframe with all the paths info in the notebook script - the one called info df
+call the slurm file and execute the number of jobs (number of rows in the df)
+
+execute the slurm file 
+
+
+
+#old way:
 1. Kilosort
 
 - load the miniconda module:
@@ -12,7 +28,7 @@ module load miniconda
 
 acitvate your kilosort environment
 
-conda activate YOUR_ENV
+conda activate KILOSORT4 
 
 - Convert the notebook script to a .py file (make sure paths are suitable for the hpc and unix) and copy it to your workspace on the hpc
 - Create a conda environment and inside it, download and follow all the Kilosort installation instructions
